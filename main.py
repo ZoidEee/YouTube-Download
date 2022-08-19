@@ -32,8 +32,39 @@ def start():
 
 def search():
     '''
-    Master lists for use through "search()"
+    Process:
+        -Download Audio Files
+            -Search for video
+                - Enter search term and search YouTube
+                    - Create a dictionary "title_url" from the search results
+                        - Title of search result = Key, URL of search result = Value
+                    - Create a menu from the dictionary keys
+                    - Download selected result to "audio_dir"
+            -Download a specific video
+                - Paste link
+                - Try
+                    - Check if "https://" is in link
+                        - True
+                            - Download to "audio_dir"
+                        - False
+                            - Paste link
+                            - Retry
+                - Except
+                    - print error
+
+        -Download Video Files
+           -Search for video
+                - Enter search term and search YouTube
+                    - Create a dictionary "title_url" from the search results
+                        - Title of search result = Key, URL of search result = Value
+                    - Create a menu from the dictionary keys
+                    - Download selected result to "video_dir"
+            -Download a specific video
+                - Paste link
+                - Check if "https://" is in link
+                - Download to "video_dir"
     '''
+
     sel_options = ['Download Audio Files', 'Download Video Files']
     type_options = ['Search for video?', 'Download a specific video?']
     title_url = {}
@@ -45,9 +76,9 @@ def search():
         ''' if Audio is selected '''
         print(f'~~~[LOG]~~~ {sel_options[selection_menu - 1]} selected')
 
-        audi_sel_menu = core_search_menu.menu('Please select one:', type_options)
+        audio_sel_menu = core_search_menu.menu('Please select one:', type_options)
 
-        if type_options[audi_sel_menu - 1] == type_options[0]:
+        if type_options[audio_sel_menu - 1] == type_options[0]:
             print(f'~~~[LOG]~~~ {sel_options[selection_menu - 1]} selected')
 
             youtube_search = Search(input("What would you like to search for: "))
@@ -61,7 +92,7 @@ def search():
                 print(f'~~~[LOG]~~~ Downloading {audio_titles[audio_title_menu - 1]} to {audio_dir}')
                 audio_download(audio_dir, title_url.get(audio_titles[audio_title_menu - 1]))
 
-        elif type_options[audi_sel_menu - 1] == type_options[1]:
+        elif type_options[audio_sel_menu - 1] == type_options[1]:
             ''' if Specific video is selected '''
             print(f'~~~[LOG]~~~ {sel_options[selection_menu - 1]} selected')
 
@@ -75,7 +106,6 @@ def search():
                     audio_download(audio_dir, audio_link)
             except EOFError as err:
                 print(err)
-
 
     elif sel_options[selection_menu - 1] == sel_options[1]:
         ''' if Video is selected '''
@@ -98,10 +128,8 @@ def search():
                       f'to {video_dir}')
                 video_download(video_dir, title_url.get((video_search_results[vs_title_menu - 1])))
 
-
         elif type_options[vs_menu - 1] == type_options[1]:
             print(f'~~~[LOG]~~~ {type_options[vs_menu - 1]} selected')
-            video_download(video_dir, input("Please paste the link here: "))
             try:
                 link = input('Please paste link to video here:')
                 if 'https://' not in link:
@@ -109,7 +137,7 @@ def search():
                 else:
                     print(f"~~~[LOG]~~~ 'https://' found in {link}")
                     print(f"~~~[LOG]~~~ Downloading now..........")
-                    audio_download(audio_dir, link)
+                    video_download(audio_dir, link)
             except EOFError as err:
                 print(err)
 
