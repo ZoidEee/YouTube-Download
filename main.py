@@ -1,12 +1,12 @@
 '''
 Author: Mckenzie Turner
 Date Created: Aug 16, 2022
-Name: You2Me-C
+Name: You2Me
 '''
 import os.path
 
 import pytube.extract
-from pytube import YouTube, Search
+from pytubefix import YouTube, Search
 import menu3
 
 media_dir = os.path.expanduser('~/Desktop/You2Me')
